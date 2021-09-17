@@ -1,0 +1,37 @@
+== MathJax and HTML
+:stem:
+
+https://www.mathjax.org/[MathJax] is a JavaScript library for displaying interactive LaTeX, AsciiMath, and MathML expressions in the browser. The Asciidoctor HTML converter integrates with MathJax to provide STEM processing for https://docs.mathjax.org/en/latest/input/asciimath.html[AsciiMath] and https://docs.mathjax.org/en/latest/input/tex/index.html[TeX and LaTeX] notation used in an AsciiDoc document. This integration offers simple, out-of-the-box support for STEM content when converting to HTML.
+
+=== How it works
+
+If you convert your document to HTML using the HTML converter, and the stem document attribute is set on your document, the HTML will be configured to automatically load MathJax into the page from a CDN. There’s nothing you have to install. Specifically, it loads the MathJax bundle that includes support for both TeX and AsciiMath, as shown here:
+
+[source,js]
+====
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+====
+
+After the page loads, MathJax scans for expressions inside special delimiters and transforms them into a displayable format. You may notice a brief flash of the expression in source form while this is happening.
+
+Here’s an example of a STEM expression written in AsciiMath and rendered by MathJax.
+
+\$e = sum_(n=0)^oo 1 / n!\$
+
+If you right click on the rendered expression, you’ll notice its interactive. One of the options even allows you to view the original AsciiMath input.
+
+=== Custom delimiters
+
+The delimiters that the HTML converter places around the expressions to tell MathJax what to process are not the same as the ones MathJax looks for by default. These custom delimiters were chosen to avoid conflicts with other syntax in the AsciiDoc language.
+
+The converter configures MathJax to look for the custom delimiters it emits. If you look at the HTML source, you’ll see a `text/x-mathjax-config` stanza that defines them, as well as some other settings.
+
+=== Alternatives
+
+The MathJax integration is currently only designed for HTML output. When converting to other backend formats, additional libraries are needed. A good alternative is https://github.com/asciidoctor/asciidoctor/blob/master/docs/modules/stem/pages/mathematical.adoc[mathematical.adoc].
+
+=== References
+
+* https://github.com/mathjax/MathJax-demos-web[MathJax web examples]
+* https://cdn.jsdelivr.net/gh/mathjax/MathJax@2.7.9/test/examples.html[MathJax example pages]
+
